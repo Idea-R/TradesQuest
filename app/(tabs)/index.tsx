@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Zap, Clock, Target, Trophy, Calendar, CircleCheck as CheckCircle2, TrendingUp, Star, Wrench } from 'lucide-react-native';
-import { CommissionTracker } from '@/components/CommissionTracker';
+import { CommissionTracker } from '../../components/CommissionTracker';
 import { useAppStore } from '@/stores/useAppStore';
 import { router } from 'expo-router';
 
