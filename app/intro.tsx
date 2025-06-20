@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Wrench, Zap, TrendingUp, Star, ChevronRight, Mail, Smartphone } from 'lucide-react-native';
 import { router } from 'expo-router';
+import { useAppStore } from '@/stores/useAppStore';
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,11 +29,32 @@ function FeatureCard({ icon, title, description, color }: FeatureCardProps) {
 
 export default function IntroScreen() {
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useAppStore();
 
   const handleSignIn = async () => {
     setIsLoading(true);
-    // TODO: Implement sign-in logic
+    
+    // Simulate authentication
     setTimeout(() => {
+      const mockUser = {
+        id: 'user_' + Date.now(),
+        name: 'Alex Johnson',
+        email: 'alex@tradesquest.com',
+        phone: '+1 (555) 123-4567',
+        avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+        trade: {
+          id: '',
+          name: '',
+          color: '#2563eb',
+        },
+        level: 1,
+        currentXP: 0,
+        totalXP: 0,
+        joinDate: new Date().toISOString(),
+        isSetupComplete: false,
+      };
+      
+      setUser(mockUser);
       setIsLoading(false);
       router.replace('/(tabs)/setup');
     }, 1500);
@@ -40,8 +62,28 @@ export default function IntroScreen() {
 
   const handleSignUp = async () => {
     setIsLoading(true);
-    // TODO: Implement sign-up logic
+    
+    // Simulate registration
     setTimeout(() => {
+      const mockUser = {
+        id: 'user_' + Date.now(),
+        name: 'New User',
+        email: 'newuser@tradesquest.com',
+        phone: '',
+        avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+        trade: {
+          id: '',
+          name: '',
+          color: '#2563eb',
+        },
+        level: 1,
+        currentXP: 0,
+        totalXP: 0,
+        joinDate: new Date().toISOString(),
+        isSetupComplete: false,
+      };
+      
+      setUser(mockUser);
       setIsLoading(false);
       router.replace('/(tabs)/setup');
     }, 1500);
@@ -49,8 +91,28 @@ export default function IntroScreen() {
 
   const handleGoogleAuth = async () => {
     setIsLoading(true);
-    // TODO: Implement Google authentication
+    
+    // Simulate Google authentication
     setTimeout(() => {
+      const mockUser = {
+        id: 'google_' + Date.now(),
+        name: 'Google User',
+        email: 'googleuser@gmail.com',
+        phone: '',
+        avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop',
+        trade: {
+          id: '',
+          name: '',
+          color: '#2563eb',
+        },
+        level: 1,
+        currentXP: 0,
+        totalXP: 0,
+        joinDate: new Date().toISOString(),
+        isSetupComplete: false,
+      };
+      
+      setUser(mockUser);
       setIsLoading(false);
       router.replace('/(tabs)/setup');
     }, 2000);
@@ -58,69 +120,59 @@ export default function IntroScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#1e293b" />
+      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       
-      {/* Hero Section */}
-      <LinearGradient
-        colors={['#1e293b', '#334155', '#475569']}
-        style={styles.heroSection}
-      >
-        <View style={styles.logoContainer}>
-          <Image
-            source={{ uri: 'https://images.pexels.com/photos/5691659/pexels-photo-5691659.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop' }}
-            style={styles.heroImage}
-          />
-          <View style={styles.logoOverlay}>
-            <View style={styles.logoIcon}>
-              <Wrench color="#ffffff" size={32} />
-            </View>
-            <Text style={styles.logoText}>TRADESQUEST</Text>
-            <Text style={styles.logoSubtext}>Level Up Your Trade</Text>
-          </View>
-        </View>
+      {/* Main Title Screen Image */}
+      <View style={styles.heroSection}>
+        <Image
+          source={require('../assets/images/Title Screen (2).png')}
+          style={styles.titleImage}
+          resizeMode="cover"
+        />
+        <LinearGradient
+          colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.7)']}
+          style={styles.gradientOverlay}
+        />
+      </View>
 
-        <View style={styles.heroContent}>
-          <Text style={styles.heroTitle}>
-            Transform Your Work Into An{'\n'}
-            <Text style={styles.heroTitleAccent}>Epic Adventure</Text>
-          </Text>
-          <Text style={styles.heroDescription}>
-            Turn every job into XP, compete with teammates, and unlock achievements 
+      {/* Content Section */}
+      <View style={styles.contentSection}>
+        {/* Tagline */}
+        <View style={styles.taglineContainer}>
+          <Text style={styles.tagline}>Level Up Your Trade</Text>
+          <Text style={styles.subtitle}>
+            Transform every job into XP, compete with teammates, and unlock achievements 
             while building your professional legacy.
           </Text>
         </View>
-      </LinearGradient>
 
-      {/* Features Section */}
-      <View style={styles.featuresSection}>
-        <Text style={styles.featuresTitle}>Why TradesQuest?</Text>
-        
-        <View style={styles.featuresGrid}>
-          <FeatureCard
-            icon={<Zap color="#fbbf24" size={24} />}
-            title="Gamified Progress"
-            description="Earn XP, unlock achievements, and level up your skills"
-            color="#fbbf24"
-          />
-          <FeatureCard
-            icon={<TrendingUp color="#16a34a" size={24} />}
-            title="Track Earnings"
-            description="Monitor commissions, goals, and financial progress"
-            color="#16a34a"
-          />
-          <FeatureCard
-            icon={<Star color="#7c3aed" size={24} />}
-            title="Team Competition"
-            description="Compete with colleagues and climb leaderboards"
-            color="#7c3aed"
-          />
+        {/* Features Grid */}
+        <View style={styles.featuresContainer}>
+          <View style={styles.featuresGrid}>
+            <FeatureCard
+              icon={<Zap color="#fbbf24" size={20} />}
+              title="Gamified Progress"
+              description="Earn XP and level up"
+              color="#fbbf24"
+            />
+            <FeatureCard
+              icon={<TrendingUp color="#16a34a" size={20} />}
+              title="Track Earnings"
+              description="Monitor your income"
+              color="#16a34a"
+            />
+            <FeatureCard
+              icon={<Star color="#7c3aed" size={20} />}
+              title="Team Competition"
+              description="Compete & collaborate"
+              color="#7c3aed"
+            />
+          </View>
         </View>
       </View>
 
       {/* Authentication Section */}
       <View style={styles.authSection}>
-        <Text style={styles.authTitle}>Ready to Start Your Quest?</Text>
-        
         {/* Google Sign In */}
         <TouchableOpacity
           style={styles.googleButton}
@@ -178,13 +230,6 @@ export default function IntroScreen() {
           </View>
         )}
       </View>
-
-      {/* Bottom Decoration */}
-      <View style={styles.bottomDecoration}>
-        <View style={styles.decorationDot} />
-        <View style={styles.decorationDot} />
-        <View style={styles.decorationDot} />
-      </View>
     </SafeAreaView>
   );
 }
@@ -192,145 +237,111 @@ export default function IntroScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#0f172a',
   },
   heroSection: {
-    height: height * 0.45,
+    flex: 1,
     position: 'relative',
   },
-  logoContainer: {
-    position: 'relative',
-    height: '60%',
-  },
-  heroImage: {
+  titleImage: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
   },
-  logoOverlay: {
+  gradientOverlay: {
     position: 'absolute',
-    top: 0,
+    bottom: 0,
     left: 0,
     right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: '50%',
   },
-  logoIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+  contentSection: {
+    position: 'absolute',
+    bottom: 320,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 24,
   },
-  logoText: {
+  taglineContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  tagline: {
     fontSize: 28,
     fontWeight: '800',
     color: '#ffffff',
     fontFamily: 'Inter-Bold',
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  logoSubtext: {
-    fontSize: 14,
-    color: '#e2e8f0',
-    fontFamily: 'Inter-Medium',
-    letterSpacing: 1,
-  },
-  heroContent: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 24,
-    justifyContent: 'center',
-  },
-  heroTitle: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#ffffff',
-    fontFamily: 'Inter-Bold',
-    lineHeight: 40,
-    marginBottom: 16,
     textAlign: 'center',
+    marginBottom: 12,
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
-  heroTitleAccent: {
-    color: '#fbbf24',
-  },
-  heroDescription: {
+  subtitle: {
     fontSize: 16,
-    color: '#cbd5e1',
+    color: '#e2e8f0',
     fontFamily: 'Inter-Regular',
+    textAlign: 'center',
     lineHeight: 24,
-    textAlign: 'center',
     paddingHorizontal: 12,
+    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
-  featuresSection: {
-    paddingHorizontal: 24,
-    paddingVertical: 32,
-  },
-  featuresTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#0f172a',
-    fontFamily: 'Inter-Bold',
-    textAlign: 'center',
-    marginBottom: 24,
+  featuresContainer: {
+    alignItems: 'center',
   },
   featuresGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 16,
+    gap: 12,
+    width: '100%',
   },
   featureCard: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    borderRadius: 12,
+    padding: 16,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
     elevation: 6,
   },
   featureIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   featureTitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     color: '#0f172a',
     fontFamily: 'Inter-SemiBold',
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 4,
   },
   featureDescription: {
-    fontSize: 12,
+    fontSize: 10,
     color: '#64748b',
     fontFamily: 'Inter-Regular',
     textAlign: 'center',
-    lineHeight: 16,
+    lineHeight: 14,
   },
   authSection: {
+    backgroundColor: '#ffffff',
     paddingHorizontal: 24,
     paddingVertical: 32,
-  },
-  authTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#0f172a',
-    fontFamily: 'Inter-SemiBold',
-    textAlign: 'center',
-    marginBottom: 24,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 8,
   },
   googleButton: {
     flexDirection: 'row',
@@ -441,7 +452,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 16,
+    borderRadius: 24,
   },
   loadingSpinner: {
     backgroundColor: '#ffffff',
@@ -454,18 +465,5 @@ const styles = StyleSheet.create({
     color: '#0f172a',
     fontFamily: 'Inter-Medium',
     marginTop: 12,
-  },
-  bottomDecoration: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: 20,
-    gap: 8,
-  },
-  decorationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#cbd5e1',
   },
 });
