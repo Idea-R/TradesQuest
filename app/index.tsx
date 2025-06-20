@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { router } from 'expo-router';
-import { useAppStore } from '@/stores/useAppStore';
+import { useUserStore } from '@/entities/user/model/store';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
 export default function Index() {
-  const { isAuthenticated, isSetupComplete } = useAppStore();
+  const { isAuthenticated, user } = useUserStore();
 
   useEffect(() => {
     // Small delay to ensure store is loaded
     const timer = setTimeout(() => {
       if (!isAuthenticated) {
         router.replace('/intro');
-      } else if (!isSetupComplete) {
+      } else if (!user?.isSetupComplete) {
         router.replace('/(tabs)/setup');
       } else {
         router.replace('/(tabs)');
@@ -19,7 +19,7 @@ export default function Index() {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [isAuthenticated, isSetupComplete]);
+  }, [isAuthenticated, user?.isSetupComplete]);
 
   return (
     <View style={styles.container}>
