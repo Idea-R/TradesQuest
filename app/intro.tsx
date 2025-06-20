@@ -199,9 +199,9 @@ const styles = StyleSheet.create({
   titleImage: {
     width: '100%',
     height: '100%',
-    // Optimize for different screen densities
-    maxWidth: 414, // iPhone Pro Max width
-    maxHeight: 896, // iPhone Pro Max height
+    // Optimized for mobile screens
+    maxWidth: width > 414 ? 414 : width,
+    maxHeight: height > 896 ? 896 : height,
   },
   gradientOverlay: {
     position: 'absolute',
