@@ -2,30 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Wrench, Zap, TrendingUp, Star, ChevronRight, Mail, Smartphone } from 'lucide-react-native';
+import { ChevronRight, Mail, Smartphone } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useAppStore } from '@/stores/useAppStore';
 
 const { width, height } = Dimensions.get('window');
-
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  color: string;
-}
-
-function FeatureCard({ icon, title, description, color }: FeatureCardProps) {
-  return (
-    <View style={styles.featureCard}>
-      <View style={[styles.featureIcon, { backgroundColor: color + '15' }]}>
-        {icon}
-      </View>
-      <Text style={styles.featureTitle}>{title}</Text>
-      <Text style={styles.featureDescription}>{description}</Text>
-    </View>
-  );
-}
 
 export default function IntroScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -133,41 +114,13 @@ export default function IntroScreen() {
           colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.7)']}
           style={styles.gradientOverlay}
         />
-      </View>
-
-      {/* Content Section */}
-      <View style={styles.contentSection}>
-        {/* Tagline */}
-        <View style={styles.taglineContainer}>
+        
+        {/* Overlay Content */}
+        <View style={styles.overlayContent}>
           <Text style={styles.tagline}>Level Up Your Trade</Text>
           <Text style={styles.subtitle}>
-            Transform every job into XP, compete with teammates, and unlock achievements 
-            while building your professional legacy.
+            Transform every job into an adventure
           </Text>
-        </View>
-
-        {/* Features Grid */}
-        <View style={styles.featuresContainer}>
-          <View style={styles.featuresGrid}>
-            <FeatureCard
-              icon={<Zap color="#fbbf24" size={20} />}
-              title="Gamified Progress"
-              description="Earn XP and level up"
-              color="#fbbf24"
-            />
-            <FeatureCard
-              icon={<TrendingUp color="#16a34a" size={20} />}
-              title="Track Earnings"
-              description="Monitor your income"
-              color="#16a34a"
-            />
-            <FeatureCard
-              icon={<Star color="#7c3aed" size={20} />}
-              title="Team Competition"
-              description="Compete & collaborate"
-              color="#7c3aed"
-            />
-          </View>
         </View>
       </View>
 
@@ -183,7 +136,7 @@ export default function IntroScreen() {
             <Text style={styles.googleIconText}>G</Text>
           </View>
           <Text style={styles.googleButtonText}>Continue with Google</Text>
-          <ChevronRight color="#374151" size={20} />
+          <ChevronRight color="#374151" size={18} />
         </TouchableOpacity>
 
         {/* Divider */}
@@ -200,7 +153,7 @@ export default function IntroScreen() {
             onPress={handleSignUp}
             disabled={isLoading}
           >
-            <Mail color="#ffffff" size={20} />
+            <Mail color="#ffffff" size={18} />
             <Text style={styles.authButtonText}>Sign Up</Text>
           </TouchableOpacity>
 
@@ -209,7 +162,7 @@ export default function IntroScreen() {
             onPress={handleSignIn}
             disabled={isLoading}
           >
-            <Smartphone color="#2563eb" size={20} />
+            <Smartphone color="#2563eb" size={18} />
             <Text style={[styles.authButtonText, styles.signInButtonText]}>Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -217,7 +170,7 @@ export default function IntroScreen() {
         {/* Terms and Privacy */}
         <Text style={styles.termsText}>
           By continuing, you agree to our{' '}
-          <Text style={styles.termsLink}>Terms of Service</Text> and{' '}
+          <Text style={styles.termsLink}>Terms</Text> and{' '}
           <Text style={styles.termsLink}>Privacy Policy</Text>
         </Text>
 
@@ -252,91 +205,41 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: '50%',
+    height: '60%',
   },
-  contentSection: {
+  overlayContent: {
     position: 'absolute',
-    bottom: 320,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 24,
-  },
-  taglineContainer: {
+    bottom: 40,
+    left: 24,
+    right: 24,
     alignItems: 'center',
-    marginBottom: 24,
   },
   tagline: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '800',
     color: '#ffffff',
     fontFamily: 'Inter-Bold',
     textAlign: 'center',
-    marginBottom: 12,
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    marginBottom: 8,
+    textShadowColor: 'rgba(0, 0, 0, 0.7)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#e2e8f0',
     fontFamily: 'Inter-Regular',
     textAlign: 'center',
-    lineHeight: 24,
-    paddingHorizontal: 12,
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowColor: 'rgba(0, 0, 0, 0.7)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,
   },
-  featuresContainer: {
-    alignItems: 'center',
-  },
-  featuresGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-    width: '100%',
-  },
-  featureCard: {
-    flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  featureIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  featureTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#0f172a',
-    fontFamily: 'Inter-SemiBold',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  featureDescription: {
-    fontSize: 10,
-    color: '#64748b',
-    fontFamily: 'Inter-Regular',
-    textAlign: 'center',
-    lineHeight: 14,
-  },
   authSection: {
     backgroundColor: '#ffffff',
-    paddingHorizontal: 24,
-    paddingVertical: 32,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -4 },
     shadowOpacity: 0.1,
@@ -347,42 +250,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 20,
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowRadius: 6,
+    elevation: 3,
     borderWidth: 1,
     borderColor: '#e2e8f0',
   },
   googleIcon: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: '#4285f4',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12,
+    marginRight: 10,
   },
   googleIconText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: 'Inter-SemiBold',
   },
   googleButtonText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
     color: '#374151',
     fontFamily: 'Inter-Medium',
   },
   divider: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    marginVertical: 16,
   },
   dividerLine: {
     flex: 1,
@@ -390,15 +293,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#e2e8f0',
   },
   dividerText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#64748b',
     fontFamily: 'Inter-Regular',
-    marginHorizontal: 16,
+    marginHorizontal: 12,
   },
   authButtons: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 24,
+    gap: 10,
+    marginBottom: 20,
   },
   authButton: {
     flex: 1,
@@ -406,13 +309,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#2563eb',
-    borderRadius: 16,
-    padding: 16,
+    borderRadius: 12,
+    padding: 14,
     shadowColor: '#2563eb',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 6,
+    shadowRadius: 6,
+    elevation: 4,
   },
   signInButton: {
     backgroundColor: '#ffffff',
@@ -422,21 +325,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   authButtonText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#ffffff',
     fontFamily: 'Inter-SemiBold',
-    marginLeft: 8,
+    marginLeft: 6,
   },
   signInButtonText: {
     color: '#2563eb',
   },
   termsText: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#64748b',
     fontFamily: 'Inter-Regular',
     textAlign: 'center',
-    lineHeight: 18,
+    lineHeight: 16,
   },
   termsLink: {
     color: '#2563eb',
@@ -452,18 +355,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 24,
+    borderRadius: 20,
   },
   loadingSpinner: {
     backgroundColor: '#ffffff',
     borderRadius: 12,
-    padding: 24,
+    padding: 20,
     alignItems: 'center',
   },
   loadingText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#0f172a',
     fontFamily: 'Inter-Medium',
-    marginTop: 12,
+    marginTop: 8,
   },
 });
