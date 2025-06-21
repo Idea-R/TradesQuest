@@ -1,18 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { Trophy, Medal, Award, Crown, TrendingUp, Target, Clock, Zap } from 'lucide-react-native';
-
-interface LeaderboardEntry {
-  id: string;
-  name: string;
-  avatar: string;
-  trade: string;
-  level: number;
-  value: number;
-  rank: number;
-  change: number; // Position change from last period
-  isCurrentUser?: boolean;
-}
+import { Trophy, Medal, Award, TrendingUp, Zap, DollarSign, Clock } from 'lucide-react-native';
 
 interface LeaderboardProps {
   period: 'daily' | 'weekly' | 'monthly';
@@ -22,61 +10,6 @@ interface LeaderboardProps {
 }
 
 export function Leaderboard({ period, category, onPeriodChange, onCategoryChange }: LeaderboardProps) {
-  // Mock data
-  const leaderboardData: LeaderboardEntry[] = [
-    {
-      id: '1',
-      name: 'Mike Rodriguez',
-      avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-      trade: 'HVAC Technician',
-      level: 15,
-      value: category === 'xp' ? 2450 : category === 'jobs' ? 12 : category === 'earnings' ? 3200 : 4.2,
-      rank: 1,
-      change: 0,
-    },
-    {
-      id: '2',
-      name: 'Sarah Chen',
-      avatar: 'https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-      trade: 'Electrical Technician',
-      level: 12,
-      value: category === 'xp' ? 1890 : category === 'jobs' ? 8 : category === 'earnings' ? 2800 : 3.8,
-      rank: 2,
-      change: 1,
-    },
-    {
-      id: '3',
-      name: 'You',
-      avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-      trade: 'HVAC Technician',
-      level: 12,
-      value: category === 'xp' ? 1450 : category === 'jobs' ? 6 : category === 'earnings' ? 2100 : 3.5,
-      rank: 3,
-      change: -1,
-      isCurrentUser: true,
-    },
-    {
-      id: '4',
-      name: 'David Kim',
-      avatar: 'https://images.pexels.com/photos/3785081/pexels-photo-3785081.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-      trade: 'Plumber',
-      level: 10,
-      value: category === 'xp' ? 1200 : category === 'jobs' ? 5 : category === 'earnings' ? 1800 : 3.2,
-      rank: 4,
-      change: 2,
-    },
-    {
-      id: '5',
-      name: 'Lisa Wang',
-      avatar: 'https://images.pexels.com/photos/3785083/pexels-photo-3785083.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-      trade: 'Electrical Technician',
-      level: 11,
-      value: category === 'xp' ? 980 : category === 'jobs' ? 4 : category === 'earnings' ? 1500 : 2.9,
-      rank: 5,
-      change: -2,
-    },
-  ];
-
   const periods = [
     { key: 'daily', label: 'Daily' },
     { key: 'weekly', label: 'Weekly' },
@@ -84,59 +17,81 @@ export function Leaderboard({ period, category, onPeriodChange, onCategoryChange
   ];
 
   const categories = [
-    { key: 'xp', label: 'XP', icon: <Zap color="#7c3aed" size={16} /> },
-    { key: 'jobs', label: 'Jobs', icon: <Target color="#16a34a" size={16} /> },
-    { key: 'earnings', label: 'Earnings', icon: <TrendingUp color="#ea580c" size={16} /> },
-    { key: 'speed', label: 'Speed', icon: <Clock color="#2563eb" size={16} /> },
+    { key: 'xp', label: 'XP', icon: <TrendingUp size={16} /> },
+    { key: 'jobs', label: 'Jobs', icon: <Award size={16} /> },
+    { key: 'earnings', label: 'Earnings', icon: <DollarSign size={16} /> },
+    { key: 'speed', label: 'Speed', icon: <Zap size={16} /> },
+  ];
+
+  // Mock leaderboard data
+  const leaderboardData = [
+    {
+      id: '1',
+      name: 'Mike Rodriguez',
+      avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+      trade: 'Electrician',
+      value: category === 'xp' ? 3450 : category === 'jobs' ? 15 : category === 'earnings' ? 2850 : 4.2,
+      change: '+12%',
+      isUp: true,
+    },
+    {
+      id: '2',
+      name: 'Sarah Chen',
+      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+      trade: 'Plumber',
+      value: category === 'xp' ? 3200 : category === 'jobs' ? 14 : category === 'earnings' ? 2650 : 3.8,
+      change: '+8%',
+      isUp: true,
+    },
+    {
+      id: '3',
+      name: 'You',
+      avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+      trade: 'Carpenter',
+      value: category === 'xp' ? 2800 : category === 'jobs' ? 12 : category === 'earnings' ? 2200 : 3.5,
+      change: '+15%',
+      isUp: true,
+    },
+    {
+      id: '4',
+      name: 'David Kim',
+      avatar: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+      trade: 'HVAC Tech',
+      value: category === 'xp' ? 2650 : category === 'jobs' ? 11 : category === 'earnings' ? 2100 : 3.2,
+      change: '-3%',
+      isUp: false,
+    },
+    {
+      id: '5',
+      name: 'Lisa Wang',
+      avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+      trade: 'Painter',
+      value: category === 'xp' ? 2400 : category === 'jobs' ? 10 : category === 'earnings' ? 1950 : 2.9,
+      change: '+5%',
+      isUp: true,
+    },
   ];
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Crown color="#fbbf24" size={24} fill="#fbbf24" />;
+        return <Trophy color="#f59e0b" size={20} fill="#f59e0b" />;
       case 2:
-        return <Medal color="#94a3b8" size={24} />;
+        return <Medal color="#94a3b8" size={20} fill="#94a3b8" />;
       case 3:
-        return <Award color="#cd7c2f" size={24} />;
+        return <Award color="#cd7c2f" size={20} fill="#cd7c2f" />;
       default:
-        return (
-          <View style={styles.rankNumber}>
-            <Text style={styles.rankNumberText}>{rank}</Text>
-          </View>
-        );
+        return <Text style={styles.rankNumber}>{rank}</Text>;
     }
   };
 
-  const getChangeIndicator = (change: number) => {
-    if (change === 0) return null;
-    
-    return (
-      <View style={[
-        styles.changeIndicator,
-        { backgroundColor: change > 0 ? '#dcfce7' : '#fee2e2' }
-      ]}>
-        <Text style={[
-          styles.changeText,
-          { color: change > 0 ? '#16a34a' : '#dc2626' }
-        ]}>
-          {change > 0 ? '+' : ''}{change}
-        </Text>
-      </View>
-    );
-  };
-
-  const formatValue = (value: number, category: string) => {
-    switch (category) {
-      case 'xp':
-        return `${value} XP`;
-      case 'jobs':
-        return `${value} jobs`;
-      case 'earnings':
-        return `$${value}`;
-      case 'speed':
-        return `${value}h avg`;
-      default:
-        return value.toString();
+  const formatValue = (value: number) => {
+    if (category === 'earnings') {
+      return `$${value.toLocaleString()}`;
+    } else if (category === 'speed') {
+      return `${value}h avg`;
+    } else {
+      return value.toLocaleString();
     }
   };
 
@@ -144,21 +99,21 @@ export function Leaderboard({ period, category, onPeriodChange, onCategoryChange
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Period Selector */}
       <View style={styles.selectorContainer}>
-        <Text style={styles.selectorTitle}>Period</Text>
-        <View style={styles.selector}>
+        <Text style={styles.selectorTitle}>Time Period</Text>
+        <View style={styles.selectorRow}>
           {periods.map((p) => (
             <TouchableOpacity
               key={p.key}
               style={[
-                styles.selectorOption,
-                period === p.key && styles.selectorOptionActive,
+                styles.selectorButton,
+                period === p.key && styles.selectorButtonActive,
               ]}
               onPress={() => onPeriodChange(p.key as any)}
             >
               <Text
                 style={[
-                  styles.selectorOptionText,
-                  period === p.key && styles.selectorOptionTextActive,
+                  styles.selectorButtonText,
+                  period === p.key && styles.selectorButtonTextActive,
                 ]}
               >
                 {p.label}
@@ -171,21 +126,23 @@ export function Leaderboard({ period, category, onPeriodChange, onCategoryChange
       {/* Category Selector */}
       <View style={styles.selectorContainer}>
         <Text style={styles.selectorTitle}>Category</Text>
-        <View style={styles.categorySelector}>
+        <View style={styles.selectorRow}>
           {categories.map((c) => (
             <TouchableOpacity
               key={c.key}
               style={[
-                styles.categoryOption,
-                category === c.key && styles.categoryOptionActive,
+                styles.categoryButton,
+                category === c.key && styles.categoryButtonActive,
               ]}
               onPress={() => onCategoryChange(c.key as any)}
             >
-              {c.icon}
+              {React.cloneElement(c.icon, {
+                color: category === c.key ? '#2563eb' : '#64748b',
+              })}
               <Text
                 style={[
-                  styles.categoryOptionText,
-                  category === c.key && styles.categoryOptionTextActive,
+                  styles.categoryButtonText,
+                  category === c.key && styles.categoryButtonTextActive,
                 ]}
               >
                 {c.label}
@@ -197,70 +154,46 @@ export function Leaderboard({ period, category, onPeriodChange, onCategoryChange
 
       {/* Leaderboard */}
       <View style={styles.leaderboard}>
-        <View style={styles.leaderboardHeader}>
-          <Trophy color="#f59e0b" size={24} />
-          <Text style={styles.leaderboardTitle}>
-            {period.charAt(0).toUpperCase() + period.slice(1)} {categories.find(c => c.key === category)?.label} Leaders
-          </Text>
-        </View>
-
-        {leaderboardData.map((entry, index) => (
-          <View
-            key={entry.id}
-            style={[
-              styles.leaderboardEntry,
-              entry.isCurrentUser && styles.currentUserEntry,
-              index === 0 && styles.firstPlace,
-            ]}
-          >
-            <View style={styles.entryLeft}>
-              <View style={styles.rankContainer}>
-                {getRankIcon(entry.rank)}
-                {getChangeIndicator(entry.change)}
-              </View>
-              
-              <Image source={{ uri: entry.avatar }} style={styles.avatar} />
-              
-              <View style={styles.userInfo}>
-                <Text style={[
-                  styles.userName,
-                  entry.isCurrentUser && styles.currentUserName
-                ]}>
-                  {entry.name}
-                </Text>
-                <Text style={styles.userTrade}>{entry.trade}</Text>
-                <Text style={styles.userLevel}>Level {entry.level}</Text>
-              </View>
+        <Text style={styles.leaderboardTitle}>Team Rankings</Text>
+        
+        {leaderboardData.map((player, index) => (
+          <View key={player.id} style={styles.playerCard}>
+            <View style={styles.rankContainer}>
+              {getRankIcon(index + 1)}
             </View>
-
-            <View style={styles.entryRight}>
+            
+            <Image source={{ uri: player.avatar }} style={styles.playerAvatar} />
+            
+            <View style={styles.playerInfo}>
+              <Text style={styles.playerName}>{player.name}</Text>
+              <Text style={styles.playerTrade}>{player.trade}</Text>
+            </View>
+            
+            <View style={styles.playerStats}>
+              <Text style={styles.playerValue}>{formatValue(player.value)}</Text>
               <Text style={[
-                styles.entryValue,
-                entry.isCurrentUser && styles.currentUserValue
+                styles.playerChange,
+                { color: player.isUp ? '#16a34a' : '#dc2626' }
               ]}>
-                {formatValue(entry.value, category)}
+                {player.change}
               </Text>
             </View>
           </View>
         ))}
       </View>
 
-      {/* Your Stats */}
-      <View style={styles.yourStats}>
-        <Text style={styles.yourStatsTitle}>Your Performance</Text>
-        <View style={styles.statsGrid}>
-          <View style={styles.statCard}>
-            <Text style={styles.statValue}>3rd</Text>
-            <Text style={styles.statLabel}>Current Rank</Text>
+      {/* Your Rank */}
+      <View style={styles.yourRank}>
+        <Text style={styles.yourRankTitle}>Your Position</Text>
+        <View style={styles.yourRankCard}>
+          <View style={styles.yourRankInfo}>
+            <Text style={styles.yourRankPosition}>#3</Text>
+            <View>
+              <Text style={styles.yourRankName}>You</Text>
+              <Text style={styles.yourRankTrade}>Carpenter</Text>
+            </View>
           </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statValue}>-1</Text>
-            <Text style={styles.statLabel}>Change</Text>
-          </View>
-          <View style={styles.statCard}>
-            <Text style={styles.statValue}>1,450</Text>
-            <Text style={styles.statLabel}>Your {categories.find(c => c.key === category)?.label}</Text>
-          </View>
+          <Text style={styles.yourRankValue}>{formatValue(2800)}</Text>
         </View>
       </View>
     </ScrollView>
@@ -285,72 +218,61 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   selectorTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: '#1e293b',
     marginBottom: 12,
   },
-  selector: {
+  selectorRow: {
     flexDirection: 'row',
-    backgroundColor: '#f1f5f9',
-    borderRadius: 8,
-    padding: 4,
+    gap: 8,
   },
-  selectorOption: {
+  selectorButton: {
     flex: 1,
     paddingVertical: 8,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     borderRadius: 6,
+    backgroundColor: '#f8fafc',
     alignItems: 'center',
   },
-  selectorOptionActive: {
-    backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 1,
-    elevation: 1,
+  selectorButtonActive: {
+    backgroundColor: '#2563eb',
   },
-  selectorOptionText: {
+  selectorButtonText: {
     fontSize: 14,
     fontWeight: '500',
     color: '#64748b',
   },
-  selectorOptionTextActive: {
-    color: '#1e293b',
+  selectorButtonTextActive: {
+    color: '#ffffff',
   },
-  categorySelector: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  categoryOption: {
+  categoryButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
     backgroundColor: '#f8fafc',
-    gap: 6,
+    gap: 4,
   },
-  categoryOptionActive: {
+  categoryButtonActive: {
     backgroundColor: '#eff6ff',
-    borderWidth: 1,
-    borderColor: '#2563eb',
   },
-  categoryOptionText: {
+  categoryButtonText: {
     fontSize: 12,
     fontWeight: '500',
     color: '#64748b',
   },
-  categoryOptionTextActive: {
+  categoryButtonTextActive: {
     color: '#2563eb',
   },
   leaderboard: {
     backgroundColor: '#ffffff',
     marginHorizontal: 20,
     marginTop: 16,
+    padding: 20,
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -358,111 +280,66 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  leaderboardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f1f5f9',
-    gap: 12,
-  },
   leaderboardTitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#1e293b',
+    marginBottom: 16,
   },
-  leaderboardEntry: {
+  playerCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f8fafc',
-  },
-  currentUserEntry: {
-    backgroundColor: '#eff6ff',
-  },
-  firstPlace: {
-    backgroundColor: '#fefce8',
-  },
-  entryLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
+    borderBottomColor: '#f1f5f9',
   },
   rankContainer: {
-    width: 40,
+    width: 32,
     alignItems: 'center',
     marginRight: 12,
   },
   rankNumber: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: '#f1f5f9',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rankNumberText: {
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: 'bold',
     color: '#64748b',
   },
-  changeIndicator: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    paddingHorizontal: 4,
-    paddingVertical: 2,
-    borderRadius: 8,
-  },
-  changeText: {
-    fontSize: 10,
-    fontWeight: '600',
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  playerAvatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     marginRight: 12,
   },
-  userInfo: {
+  playerInfo: {
     flex: 1,
   },
-  userName: {
+  playerName: {
     fontSize: 16,
     fontWeight: '600',
     color: '#1e293b',
   },
-  currentUserName: {
-    color: '#2563eb',
-  },
-  userTrade: {
-    fontSize: 14,
+  playerTrade: {
+    fontSize: 12,
     color: '#64748b',
     marginTop: 2,
   },
-  userLevel: {
-    fontSize: 12,
-    color: '#94a3b8',
-    marginTop: 2,
-  },
-  entryRight: {
+  playerStats: {
     alignItems: 'flex-end',
   },
-  entryValue: {
-    fontSize: 18,
-    fontWeight: '700',
+  playerValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
     color: '#1e293b',
   },
-  currentUserValue: {
-    color: '#2563eb',
+  playerChange: {
+    fontSize: 12,
+    fontWeight: '500',
+    marginTop: 2,
   },
-  yourStats: {
+  yourRank: {
     backgroundColor: '#ffffff',
     marginHorizontal: 20,
     marginTop: 16,
-    marginBottom: 32,
+    marginBottom: 20,
     padding: 20,
     borderRadius: 12,
     shadowColor: '#000',
@@ -471,32 +348,43 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  yourStatsTitle: {
-    fontSize: 18,
+  yourRankTitle: {
+    fontSize: 14,
     fontWeight: '600',
-    color: '#1e293b',
-    marginBottom: 16,
+    color: '#64748b',
+    marginBottom: 12,
   },
-  statsGrid: {
+  yourRankCard: {
     flexDirection: 'row',
-    gap: 12,
-  },
-  statCard: {
-    flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 16,
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#f1f5f9',
     borderRadius: 8,
   },
-  statValue: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1e293b',
-    marginBottom: 4,
+  yourRankInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  statLabel: {
+  yourRankPosition: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2563eb',
+    marginRight: 16,
+  },
+  yourRankName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1e293b',
+  },
+  yourRankTrade: {
     fontSize: 12,
     color: '#64748b',
-    textAlign: 'center',
+    marginTop: 2,
+  },
+  yourRankValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1e293b',
   },
 });

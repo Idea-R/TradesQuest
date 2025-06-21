@@ -1,28 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { Users, Plus, Hash, Crown, UserPlus } from 'lucide-react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { Users, Plus, Hash } from 'lucide-react-native';
 
 interface Team {
   id: string;
   name: string;
   inviteCode: string;
   adminId: string;
-  members: TeamMember[];
+  members: any[];
   createdAt: string;
   weeklyGoal: number;
   description: string;
-}
-
-interface TeamMember {
-  id: string;
-  name: string;
-  avatar: string;
-  trade: string;
-  level: number;
-  weeklyXP: number;
-  weeklyJobs: number;
-  role: 'admin' | 'member';
-  isOnline: boolean;
 }
 
 interface TeamSystemProps {
@@ -32,133 +20,108 @@ interface TeamSystemProps {
 
 export function TeamSystem({ onTeamJoined, onTeamCreated }: TeamSystemProps) {
   const [activeTab, setActiveTab] = useState<'join' | 'create'>('join');
-  const [joinCode, setJoinCode] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
   const [teamName, setTeamName] = useState('');
   const [teamDescription, setTeamDescription] = useState('');
   const [weeklyGoal, setWeeklyGoal] = useState('15000');
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleJoinTeam = async () => {
-    if (!joinCode.trim()) {
-      Alert.alert('Error', 'Please enter a team code');
+  const handleJoinTeam = () => {
+    if (!inviteCode.trim()) {
+      Alert.alert('Error', 'Please enter an invite code');
       return;
     }
 
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      // Mock team data
-      const mockTeam: Team = {
-        id: 'team-' + Date.now(),
-        name: 'Elite HVAC Crew',
-        inviteCode: joinCode.toUpperCase(),
-        adminId: 'admin-123',
-        createdAt: new Date().toISOString(),
-        weeklyGoal: 15000,
-        description: 'Professional HVAC technicians working together',
-        members: [
-          {
-            id: 'member-1',
-            name: 'Mike Rodriguez',
-            avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-            trade: 'HVAC Technician',
-            level: 15,
-            weeklyXP: 2450,
-            weeklyJobs: 12,
-            role: 'admin',
-            isOnline: true,
-          },
-          {
-            id: 'member-2',
-            name: 'Sarah Chen',
-            avatar: 'https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-            trade: 'Electrical Technician',
-            level: 12,
-            weeklyXP: 1890,
-            weeklyJobs: 8,
-            role: 'member',
-            isOnline: false,
-          },
-          {
-            id: 'member-3',
-            name: 'You',
-            avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-            trade: 'HVAC Technician',
-            level: 12,
-            weeklyXP: 1450,
-            weeklyJobs: 6,
-            role: 'member',
-            isOnline: true,
-          },
-        ],
-      };
+    // Mock team data for demo
+    const mockTeam: Team = {
+      id: 'team-1',
+      name: 'Elite Builders',
+      inviteCode: inviteCode.toUpperCase(),
+      adminId: 'user-1',
+      members: [
+        {
+          id: 'user-1',
+          name: 'Mike Rodriguez',
+          avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+          trade: 'Electrician',
+          level: 12,
+          weeklyXP: 2450,
+          weeklyJobs: 8,
+          role: 'admin',
+          isOnline: true,
+        },
+        {
+          id: 'user-2',
+          name: 'Sarah Chen',
+          avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+          trade: 'Plumber',
+          level: 15,
+          weeklyXP: 3200,
+          weeklyJobs: 12,
+          role: 'member',
+          isOnline: false,
+        },
+        {
+          id: 'user-3',
+          name: 'You',
+          avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+          trade: 'Carpenter',
+          level: 8,
+          weeklyXP: 1800,
+          weeklyJobs: 6,
+          role: 'member',
+          isOnline: true,
+        },
+      ],
+      createdAt: new Date().toISOString(),
+      weeklyGoal: 15000,
+      description: 'A team of skilled tradespeople working together to achieve excellence',
+    };
 
-      setIsLoading(false);
-      onTeamJoined(mockTeam);
-    }, 1500);
+    onTeamJoined(mockTeam);
   };
 
-  const handleCreateTeam = async () => {
+  const handleCreateTeam = () => {
     if (!teamName.trim()) {
       Alert.alert('Error', 'Please enter a team name');
       return;
     }
 
-    setIsLoading(true);
+    // Mock team creation
+    const newTeam: Team = {
+      id: 'team-new',
+      name: teamName,
+      inviteCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
+      adminId: 'current-user',
+      members: [
+        {
+          id: 'current-user',
+          name: 'You',
+          avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+          trade: 'Carpenter',
+          level: 8,
+          weeklyXP: 0,
+          weeklyJobs: 0,
+          role: 'admin',
+          isOnline: true,
+        },
+      ],
+      createdAt: new Date().toISOString(),
+      weeklyGoal: parseInt(weeklyGoal) || 15000,
+      description: teamDescription || 'A new team ready to take on challenges',
+    };
 
-    // Simulate API call
-    setTimeout(() => {
-      const mockTeam: Team = {
-        id: 'team-' + Date.now(),
-        name: teamName,
-        inviteCode: generateInviteCode(),
-        adminId: 'current-user',
-        createdAt: new Date().toISOString(),
-        weeklyGoal: parseInt(weeklyGoal) || 15000,
-        description: teamDescription,
-        members: [
-          {
-            id: 'current-user',
-            name: 'You',
-            avatar: 'https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
-            trade: 'HVAC Technician',
-            level: 12,
-            weeklyXP: 1450,
-            weeklyJobs: 6,
-            role: 'admin',
-            isOnline: true,
-          },
-        ],
-      };
-
-      setIsLoading(false);
-      onTeamCreated(mockTeam);
-    }, 1500);
-  };
-
-  const generateInviteCode = () => {
-    return Math.random().toString(36).substring(2, 8).toUpperCase();
+    onTeamCreated(newTeam);
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.header}>
-        <View style={styles.iconContainer}>
-          <Users color="#2563eb" size={32} />
-        </View>
-        <Text style={styles.title}>Join a Team</Text>
-        <Text style={styles.subtitle}>
-          Connect with other technicians, compete on leaderboards, and achieve goals together
-        </Text>
-      </View>
-
+    <View style={styles.container}>
+      {/* Tab Navigation */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
           style={[styles.tab, activeTab === 'join' && styles.tabActive]}
           onPress={() => setActiveTab('join')}
         >
-          <UserPlus color={activeTab === 'join' ? '#2563eb' : '#64748b'} size={20} />
+          <Users color={activeTab === 'join' ? '#2563eb' : '#64748b'} size={20} />
           <Text style={[styles.tabText, activeTab === 'join' && styles.tabTextActive]}>
             Join Team
           </Text>
@@ -175,157 +138,93 @@ export function TeamSystem({ onTeamJoined, onTeamCreated }: TeamSystemProps) {
         </TouchableOpacity>
       </View>
 
-      {activeTab === 'join' ? (
-        <View style={styles.form}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Team Invite Code</Text>
-            <View style={styles.inputContainer}>
-              <Hash color="#64748b" size={20} />
-              <TextInput
-                style={styles.input}
-                value={joinCode}
-                onChangeText={setJoinCode}
-                placeholder="Enter 6-character code"
-                placeholderTextColor="#94a3b8"
-                autoCapitalize="characters"
-                maxLength={6}
-              />
+      {/* Content */}
+      <View style={styles.content}>
+        {activeTab === 'join' ? (
+          <View style={styles.section}>
+            <View style={styles.iconContainer}>
+              <Hash color="#2563eb" size={32} />
             </View>
-            <Text style={styles.inputHint}>
-              Ask your team admin for the invite code
+            <Text style={styles.title}>Join a Team</Text>
+            <Text style={styles.subtitle}>
+              Enter the invite code shared by your team leader
             </Text>
-          </View>
-
-          <TouchableOpacity
-            style={[styles.button, styles.primaryButton, isLoading && styles.buttonDisabled]}
-            onPress={handleJoinTeam}
-            disabled={isLoading}
-          >
-            <Text style={styles.primaryButtonText}>
-              {isLoading ? 'Joining...' : 'Join Team'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View style={styles.form}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Team Name</Text>
+            
             <TextInput
-              style={styles.textInput}
+              style={styles.input}
+              placeholder="Enter invite code"
+              value={inviteCode}
+              onChangeText={setInviteCode}
+              autoCapitalize="characters"
+              maxLength={8}
+            />
+            
+            <TouchableOpacity style={styles.primaryButton} onPress={handleJoinTeam}>
+              <Text style={styles.primaryButtonText}>Join Team</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.section}>
+            <View style={styles.iconContainer}>
+              <Plus color="#16a34a" size={32} />
+            </View>
+            <Text style={styles.title}>Create a Team</Text>
+            <Text style={styles.subtitle}>
+              Start your own team and invite others to join
+            </Text>
+            
+            <TextInput
+              style={styles.input}
+              placeholder="Team name"
               value={teamName}
               onChangeText={setTeamName}
-              placeholder="Enter team name"
-              placeholderTextColor="#94a3b8"
+              maxLength={30}
             />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Description (Optional)</Text>
+            
             <TextInput
-              style={[styles.textInput, styles.textArea]}
+              style={[styles.input, styles.textArea]}
+              placeholder="Team description (optional)"
               value={teamDescription}
               onChangeText={setTeamDescription}
-              placeholder="Describe your team..."
-              placeholderTextColor="#94a3b8"
               multiline
               numberOfLines={3}
+              maxLength={150}
             />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Weekly XP Goal</Text>
+            
             <TextInput
-              style={styles.textInput}
+              style={styles.input}
+              placeholder="Weekly XP goal"
               value={weeklyGoal}
               onChangeText={setWeeklyGoal}
-              placeholder="15000"
-              placeholderTextColor="#94a3b8"
               keyboardType="numeric"
             />
-            <Text style={styles.inputHint}>
-              Set a challenging but achievable goal for your team
-            </Text>
+            
+            <TouchableOpacity style={styles.primaryButton} onPress={handleCreateTeam}>
+              <Text style={styles.primaryButtonText}>Create Team</Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            style={[styles.button, styles.primaryButton, isLoading && styles.buttonDisabled]}
-            onPress={handleCreateTeam}
-            disabled={isLoading}
-          >
-            <Crown color="#ffffff" size={20} />
-            <Text style={styles.primaryButtonText}>
-              {isLoading ? 'Creating...' : 'Create Team'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <View style={styles.benefits}>
-        <Text style={styles.benefitsTitle}>Team Benefits</Text>
-        <View style={styles.benefitsList}>
-          <View style={styles.benefitItem}>
-            <View style={styles.benefitIcon}>
-              <Users color="#16a34a" size={16} />
-            </View>
-            <Text style={styles.benefitText}>Compete with colleagues</Text>
-          </View>
-          <View style={styles.benefitItem}>
-            <View style={styles.benefitIcon}>
-              <Trophy color="#f59e0b" size={16} />
-            </View>
-            <Text style={styles.benefitText}>Weekly leaderboards</Text>
-          </View>
-          <View style={styles.benefitItem}>
-            <View style={styles.benefitIcon}>
-              <Target color="#2563eb" size={16} />
-            </View>
-            <Text style={styles.benefitText}>Shared goals & achievements</Text>
-          </View>
-        </View>
+        )}
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
-  },
-  header: {
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 32,
-  },
-  iconContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#eff6ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#64748b',
-    textAlign: 'center',
-    lineHeight: 24,
   },
   tabContainer: {
     flexDirection: 'row',
+    backgroundColor: '#ffffff',
     marginHorizontal: 20,
-    marginBottom: 24,
-    backgroundColor: '#f1f5f9',
+    marginTop: 20,
     borderRadius: 12,
     padding: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
   tab: {
     flex: 1,
@@ -333,19 +232,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 16,
     borderRadius: 8,
-    gap: 8,
   },
   tabActive: {
-    backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    backgroundColor: '#f1f5f9',
   },
   tabText: {
+    marginLeft: 8,
     fontSize: 14,
     fontWeight: '500',
     color: '#64748b',
@@ -353,103 +246,70 @@ const styles = StyleSheet.create({
   tabTextActive: {
     color: '#2563eb',
   },
-  form: {
+  content: {
+    flex: 1,
     paddingHorizontal: 20,
   },
-  inputGroup: {
-    marginBottom: 20,
+  section: {
+    backgroundColor: '#ffffff',
+    marginTop: 20,
+    padding: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
+  iconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: '#f1f5f9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '#1e293b',
     marginBottom: 8,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-    gap: 12,
+  subtitle: {
+    fontSize: 14,
+    color: '#64748b',
+    textAlign: 'center',
+    marginBottom: 24,
+    lineHeight: 20,
   },
   input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#1e293b',
-  },
-  textInput: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    width: '100%',
     borderWidth: 1,
     borderColor: '#e2e8f0',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     fontSize: 16,
-    color: '#1e293b',
+    marginBottom: 16,
+    backgroundColor: '#ffffff',
   },
   textArea: {
     height: 80,
     textAlignVertical: 'top',
   },
-  inputHint: {
-    fontSize: 14,
-    color: '#64748b',
-    marginTop: 4,
-  },
-  button: {
-    flexDirection: 'row',
+  primaryButton: {
+    width: '100%',
+    backgroundColor: '#2563eb',
+    borderRadius: 8,
+    paddingVertical: 14,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    gap: 8,
     marginTop: 8,
   },
-  primaryButton: {
-    backgroundColor: '#2563eb',
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
   primaryButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
     color: '#ffffff',
-  },
-  benefits: {
-    marginTop: 32,
-    paddingHorizontal: 20,
-    paddingBottom: 32,
-  },
-  benefitsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1e293b',
-    marginBottom: 16,
-  },
-  benefitsList: {
-    gap: 12,
-  },
-  benefitItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  benefitIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#f8fafc',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  benefitText: {
     fontSize: 16,
-    color: '#64748b',
+    fontWeight: '600',
   },
 });

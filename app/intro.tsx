@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     borderColor: '#e2e8f0',
   },
   googleIcon: {
-  }
+  },
   termsText: {
     fontSize: 11,
     color: '#64748b',
